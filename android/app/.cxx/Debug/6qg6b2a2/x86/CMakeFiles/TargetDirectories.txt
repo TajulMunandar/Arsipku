@@ -1,0 +1,2 @@
+D:/kerja/tga-rehan/arsipku/android/app/.cxx/Debug/6qg6b2a2/x86/CMakeFiles/edit_cache.dir
+D:/kerja/tga-rehan/arsipku/android/app/.cxx/Debug/6qg6b2a2/x86/CMakeFiles/rebuild_cache.dir

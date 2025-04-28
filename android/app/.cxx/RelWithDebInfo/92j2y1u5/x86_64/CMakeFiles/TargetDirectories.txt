@@ -1,0 +1,2 @@
+D:/kerja/tga-rehan/arsipku/android/app/.cxx/RelWithDebInfo/92j2y1u5/x86_64/CMakeFiles/edit_cache.dir
+D:/kerja/tga-rehan/arsipku/android/app/.cxx/RelWithDebInfo/92j2y1u5/x86_64/CMakeFiles/rebuild_cache.dir

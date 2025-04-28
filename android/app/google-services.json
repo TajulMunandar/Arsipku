@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "748190020969",
+    "project_id": "arsipku-6a97b",
+    "storage_bucket": "arsipku-6a97b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748190020969:android:44c5d9a91aa554656cf9f8",
+        "android_client_info": {
+          "package_name": "com.example.arsipku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9eTH7wxuKyGJOIhYoY8Pda522HpVDCSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
