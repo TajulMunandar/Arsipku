@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 
 class SuratKeluarScreen extends StatefulWidget {
+  const SuratKeluarScreen({super.key});
+
   @override
   _SuratKeluarScreenState createState() => _SuratKeluarScreenState();
 }
@@ -155,45 +157,67 @@ class _SuratKeluarScreenState extends State<SuratKeluarScreen> {
       body: FutureBuilder<List<Surat>>(
         future: _suratService.getSurat("keluar"),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData || snapshot.data!.isEmpty)
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text("Tidak ada surat keluar"));
+          }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Surat surat = snapshot.data![index];
-              return ListTile(
-                title: Text(surat.nomorSurat),
-                subtitle: Text(surat.perihal),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (surat.fileUrl.isNotEmpty)
+          List<Surat> suratList = snapshot.data!;
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text("No")),
+                DataColumn(label: Text("Tanggal")),
+                DataColumn(label: Text("Nomor Surat")),
+                DataColumn(label: Text("Pengirim")),
+                DataColumn(label: Text("Penerima")),
+                DataColumn(label: Text("Perihal")),
+                DataColumn(label: Text("File")),
+                DataColumn(label: Text("Aksi")),
+              ],
+              rows: List<DataRow>.generate(suratList.length, (index) {
+                Surat surat = suratList[index];
+                return DataRow(cells: [
+                  DataCell(Text((index + 1).toString())),
+                  DataCell(Text(surat.tanggalSurat)),
+                  DataCell(Text(surat.nomorSurat)),
+                  DataCell(Text(surat.pengirim)),
+                  DataCell(Text(surat.penerima)),
+                  DataCell(Text(surat.perihal)),
+                  DataCell(surat.fileUrl.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(Icons.attach_file, color: Colors.green),
+                          onPressed: () {
+                            File file = File(surat.fileUrl);
+                            if (file.existsSync()) {
+                              OpenFile.open(file.path);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("File tidak ditemukan")),
+                              );
+                            }
+                          },
+                        )
+                      : Text("-")),
+                  DataCell(Row(
+                    children: [
                       IconButton(
-                        icon: Icon(Icons.attach_file, color: Colors.green),
-                        onPressed: () {
-                          File file = File(surat.fileUrl);
-                          if (file.existsSync()) {
-                            OpenFile.open(file.path);
-                          } else {
-                            print("File tidak ditemukan");
-                          }
-                        },
+                        icon: Icon(Icons.edit, color: Colors.blue),
+                        onPressed: () => _tambahAtauEditSurat(surat: surat),
                       ),
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => _tambahAtauEditSurat(surat: surat),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _hapusSurat(surat.id as int),
-                    ),
-                  ],
-                ),
-              );
-            },
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _hapusSurat(surat.id as int),
+                      ),
+                    ],
+                  )),
+                ]);
+              }),
+            ),
           );
         },
       ),

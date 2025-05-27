@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'semua_surat_screen.dart';
 import 'laporan_screen.dart';
 import 'surat_masuk_screen.dart';
 import 'surat_keluar_screen.dart';
@@ -7,6 +8,8 @@ import '../services/auth_service.dart';
 import 'login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -84,6 +87,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: "Surat Keluar",
         color: Colors.orange,
         screen: SuratKeluarScreen(),
+      ),
+      _buildMenuItem(
+        context,
+        icon: Icons.all_inbox,
+        title: "Semua Surat",
+        color: Colors.purple,
+        screen: SemuaSuratScreen(),
       ),
     ];
 

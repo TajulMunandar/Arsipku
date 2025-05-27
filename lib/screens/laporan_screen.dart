@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import '../services/surat_service.dart';
 
 class LaporanScreen extends StatefulWidget {
+  const LaporanScreen({super.key});
+
   @override
   _LaporanScreenState createState() => _LaporanScreenState();
 }
