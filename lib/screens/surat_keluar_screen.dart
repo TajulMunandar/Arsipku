@@ -116,6 +116,7 @@ class _SuratKeluarScreenState extends State<SuratKeluarScreen> {
               onPressed: () async {
                 Surat newSurat = Surat(
                   jenisSurat: "keluar",
+                  id: surat?.id, // tambahkan ini!
                   nomorSurat: nomorController.text,
                   pengirim: pengirimController.text,
                   penerima: penerimaController.text,

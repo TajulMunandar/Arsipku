@@ -67,6 +67,39 @@ class SuratService {
     );
   }
 
+  Future<List<String>> getTahunSurat(String jenisSurat) async {
+    final db = await database;
+    final result = await db.rawQuery(
+      '''
+    SELECT DISTINCT strftime('%Y', tanggal_surat) as tahun 
+    FROM surat 
+    WHERE jenis_surat = ?
+    ORDER BY tahun DESC
+    ''',
+      [jenisSurat],
+    );
+
+    // Tangani jika hasilnya null atau tidak bertipe String
+    return result
+        .map((e) => e['tahun']?.toString() ?? '')
+        .where((tahun) => tahun.isNotEmpty)
+        .toList();
+  }
+
+  Future<List<Surat>> getSuratByTahun(String jenisSurat, String tahun) async {
+    final db = await database;
+    final result = await db.rawQuery(
+      '''
+    SELECT * FROM surat 
+    WHERE jenis_surat = ? AND strftime('%Y', tanggal_surat) = ?
+    ORDER BY tanggal_surat DESC
+    ''',
+      [jenisSurat, tahun],
+    );
+
+    return result.map((e) => Surat.fromMap(e)).toList();
+  }
+
   // Hapus Surat
   Future<int> hapusSurat(int id) async {
     // Ubah tipe parameter ke int
@@ -90,7 +123,7 @@ class SuratService {
     final now = DateTime.now();
     List<int> jumlahPerHari = [];
 
-    for (int i = 6; i >= 0; i--) {
+    for (int i = 0; i <= 6; i--) {
       final tanggal =
           DateTime(now.year, now.month, now.day).subtract(Duration(days: i));
       final tanggalString =
